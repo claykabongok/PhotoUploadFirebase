@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">PhotoUpload</string>
+    <string name="action_logout">Logout</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+
+    <string name="upload">Upload Picture</string>
+    <string name="previous">Previous</string>
+
+    <string name="instruction_pick_a_picture">Click on the add button bellow to pick a picture</string>
+
+
+</resources>
