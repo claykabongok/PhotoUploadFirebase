@@ -6,6 +6,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,7 +20,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+
 import com.claykab.photoupload.databinding.FragmentImageUploadBinding;
+import com.claykab.photoupload.utils.NetworkState;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
@@ -81,7 +84,8 @@ public class ImageUploadFragment extends Fragment {
         binding.buttonBtnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(uriPicture != null){
+                boolean isDeviceConnected= NetworkState.isDeviceConnected(getContext());
+                if(uriPicture != null && isDeviceConnected){
                     progressDialog = new ProgressDialog(getContext());
                     progressDialog.setTitle("Uploading image..");
                     progressDialog.setMessage("Please wait...");
@@ -91,14 +95,26 @@ public class ImageUploadFragment extends Fragment {
                     progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                     progressDialog.show();
                     uploadPicture();
-                }else{
+                }else if(!isDeviceConnected){
+                    //notify the user
+                    try {
+
+                        Snackbar.make(getActivity().findViewById(R.id.nav_host_fragment), "Device offline, please connect to a Wifi or Cellular network.",
+                                Snackbar.LENGTH_LONG)
+                                .show();
+                    }
+                    catch (Exception ex){
+                        //Log.e(TAG,"Error: "+ex.getLocalizedMessage());
+                    }
+
+                }
+                else if(uriPicture != null){
                     try {
                         Snackbar.make(getActivity().findViewById(R.id.nav_host_fragment), "Please select a picture before you upload", Snackbar.LENGTH_LONG)
                                 .setAction("OK", null).show();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
                 }
 
             }

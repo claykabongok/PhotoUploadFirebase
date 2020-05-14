@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.claykab.photoupload.databinding.FragmentLoginBinding;
+import com.claykab.photoupload.utils.NetworkState;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
@@ -51,45 +52,23 @@ public class LoginFragment extends Fragment {
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                if(!IsInputValid()){
-                    return;
-                }
-                String username=binding.etLoginUsername.getEditText().getText().toString().trim();
-                final String password=binding.etLoginPassword.getEditText().getText().toString().trim();
+                boolean isDeviceConnected= NetworkState.isDeviceConnected(getContext());
+                if(isDeviceConnected){
+                    fireBaseUserLogin(v);
+                }else {
+                    //notify the user
+                    try {
 
-                progressDialog = new ProgressDialog(getContext());
-                progressDialog.setTitle("Signing in..");
-                progressDialog.setMessage("Please wait...");
-                progressDialog.setCancelable(false);
-                progressDialog.show();
-
-                firebaseAuth.signInWithEmailAndPassword(username,password).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            progressDialog.hide();
-                            FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
-
-                            Toast.makeText(getContext(),"User: "+firebaseUser.getEmail(),Toast.LENGTH_LONG).show();
-                            Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_FirstFragment);
-                        }else{
-                            progressDialog.hide();
-                            try {
-
-                                Snackbar.make(getActivity().findViewById(R.id.nav_host_fragment), "Login not Successful"+task.getException(),
-                                        Snackbar.LENGTH_LONG)
-                                        .show();
-                            }
-                            catch (Exception ex){
-                                Log.e(TAG,"Error: "+ex.getLocalizedMessage());
-                            }
-                            //Toast.makeText(getContext(), "Login not Successful"+task.getException(),Toast.LENGTH_LONG).show();
-                            //Log.w(TAG, "createUserWithEmail:failure", task.getException());
-
-
-                        }
+                        Snackbar.make(getActivity().findViewById(R.id.nav_host_fragment), "Device offline, please connect to a Wifi or Cellular network.",
+                                Snackbar.LENGTH_LONG)
+                                .show();
                     }
-                });
+                    catch (Exception ex){
+                        //Log.e(TAG,"Error: "+ex.getLocalizedMessage());
+                    }
+
+                }
+
             }
         });
 
@@ -104,6 +83,49 @@ public class LoginFragment extends Fragment {
 
 
         return root;//inflater.inflate(R.layout.fragment_login, container, false);
+    }
+
+    private void fireBaseUserLogin(final View v) {
+        if(!IsInputValid()){
+            return;
+        }
+
+        String username=binding.etLoginUsername.getEditText().getText().toString().trim();
+        final String password=binding.etLoginPassword.getEditText().getText().toString().trim();
+
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Signing in..");
+        progressDialog.setMessage("Please wait...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        firebaseAuth.signInWithEmailAndPassword(username,password).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()){
+                    progressDialog.hide();
+                    FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
+
+                    Toast.makeText(getContext(),"User: "+firebaseUser.getEmail(),Toast.LENGTH_LONG).show();
+                    Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_FirstFragment);
+                }else{
+                    progressDialog.hide();
+                    try {
+
+                        Snackbar.make(getActivity().findViewById(R.id.nav_host_fragment), "Login not Successful"+task.getException(),
+                                Snackbar.LENGTH_LONG)
+                                .show();
+                    }
+                    catch (Exception ex){
+                        Log.e(TAG,"Error: "+ex.getLocalizedMessage());
+                    }
+                    //Toast.makeText(getContext(), "Login not Successful"+task.getException(),Toast.LENGTH_LONG).show();
+                    //Log.w(TAG, "createUserWithEmail:failure", task.getException());
+
+
+                }
+            }
+        });
     }
 
     private boolean IsInputValid() {
