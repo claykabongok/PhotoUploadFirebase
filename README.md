@@ -24,18 +24,21 @@ To test this project you need to follow these steps:
 
 
 ### Demo: Login Screen
-![Login Screen](https://github.com/claykabongok/PhotoUploadFirebase/blob/master/readme/login.jpg?raw=true)
+<img src="https://github.com/claykabongok/PhotoUploadFirebase/blob/master/readme/login.jpg?raw=true" width=400 alt="Demo screen">
+
 
 ### Demo: Sign up Screen
-![Sign up Screen](https://github.com/claykabongok/PhotoUploadFirebase/blob/master/readme/signup.jpg?raw=true)
+<img src="https://github.com/claykabongok/PhotoUploadFirebase/blob/master/readme/signup.jpg?raw=true" width=400 alt="Demo screen">
 
 ### Demo: Image upload Screen
-![Picture upload fragement](https://github.com/claykabongok/PhotoUploadFirebase/blob/master/readme/uploadfragment.jpg?raw=true)
+<img src="https://github.com/claykabongok/PhotoUploadFirebase/blob/master/readme/uploadfragment.jpg?raw=true" width=400 alt="Demo screen">
 
 ### Demo: Selected Image  Screen
-![Selected picture](https://github.com/claykabongok/PhotoUploadFirebase/blob/master/readme/selectedpicture.jpg?raw=true)
+<img src="https://github.com/claykabongok/PhotoUploadFirebase/blob/master/readme/selectedpicture.jpg?raw=true" width=400 alt="Demo screen">
+
 
 ### Demo: Image upload In progress
-![Upload in progress](https://github.com/claykabongok/PhotoUploadFirebase/blob/master/readme/uploadinprogress.jpg?raw=true)
+<img src="https://github.com/claykabongok/PhotoUploadFirebase/blob/master/readme/uploadinprogress.jpg?raw=true" width=400 alt="Demo screen">
+
 
 
