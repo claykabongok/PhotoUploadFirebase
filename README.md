@@ -24,7 +24,7 @@ To test this project you need to follow these steps:
 
 
 ### Demo: Login Screen
-![Login Screen](https://raw.githubusercontent.com/claykabongok/PhotoUploadFirebase/master/readme/login.jpg?raw=true)
+![Login Screen](https://github.com/claykabongok/PhotoUploadFirebase/blob/master/readme/login.jpg?raw=true)
 
 ### Demo: Sign up Screen
 ![Sign up Screen](https://github.com/claykabongok/PhotoUploadFirebase/blob/master/readme/signup.jpg?raw=true)
