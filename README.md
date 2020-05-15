@@ -35,7 +35,7 @@ To test this project you need to follow these steps:
 ### Demo: Selected Image  Screen
 ![Selected picture](https://github.com/claykabongok/PhotoUploadFirebase/blob/master/readme/selectedpicture.jpg?raw=true)
 
-### Demo: Image upload Inprogress
+### Demo: Image upload In progress
 ![Upload in progress](https://github.com/claykabongok/PhotoUploadFirebase/blob/master/readme/uploadinprogress.jpg?raw=true)
 
 
