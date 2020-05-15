@@ -4,7 +4,7 @@
 PhotoUploadFirebase is an Android application that demostrates the  use of some of [Firebase](firebase.google.com) features such as authentication and [firebase Cloud Storage](https://firebase.google.com/docs/storage) . The application enables user
 to sign up, login and upload a picture to [firebase Cloud Storage](https://firebase.google.com/docs/storage)
 
-##  Concepts covered in this Application
+##  Concepts used in this Application
 
 1.  [Firebase Authentication](https://firebase.google.com/docs/auth)
 2.  [Firebase Cloud Storage](https://firebase.google.com/docs/storage)
