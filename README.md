@@ -4,7 +4,7 @@
 PhotoUploadFirebase is an Android application that demostrates the  use of some of [Firebase](firebase.google.com) features such as authentication and [firebase Cloud Storage](https://firebase.google.com/docs/storage) . The application enables user
 to sign up, login and upload a picture to [firebase Cloud Storage](https://firebase.google.com/docs/storage)
 
-##  Concepts covered in this Application
+##  Concepts used in this Application
 
 1.  [Firebase Authentication](https://firebase.google.com/docs/auth)
 2.  [Firebase Cloud Storage](https://firebase.google.com/docs/storage)
@@ -24,18 +24,21 @@ To test this project you need to follow these steps:
 
 
 ### Demo: Login Screen
-![Login Screen](https://github.com/claykabongok/PhotoUploadFirebase/blob/master/readme/login.jpg?raw=true)
+<img src="https://github.com/claykabongok/PhotoUploadFirebase/blob/master/readme/login.jpg?raw=true" width=400 alt="Demo screen">
+
 
 ### Demo: Sign up Screen
-![Sign up Screen](https://github.com/claykabongok/PhotoUploadFirebase/blob/master/readme/signup.jpg?raw=true)
+<img src="https://github.com/claykabongok/PhotoUploadFirebase/blob/master/readme/signup.jpg?raw=true" width=400 alt="Demo screen">
 
 ### Demo: Image upload Screen
-![Picture upload fragement](https://github.com/claykabongok/PhotoUploadFirebase/blob/master/readme/uploadfragment.jpg?raw=true)
+<img src="https://github.com/claykabongok/PhotoUploadFirebase/blob/master/readme/uploadfragment.jpg?raw=true" width=400 alt="Demo screen">
 
 ### Demo: Selected Image  Screen
-![Selected picture](https://github.com/claykabongok/PhotoUploadFirebase/blob/master/readme/selectedpicture.jpg?raw=true)
+<img src="https://github.com/claykabongok/PhotoUploadFirebase/blob/master/readme/selectedpicture.jpg?raw=true" width=400 alt="Demo screen">
+
 
 ### Demo: Image upload In progress
-![Upload in progress](https://github.com/claykabongok/PhotoUploadFirebase/blob/master/readme/uploadinprogress.jpg?raw=true)
+<img src="https://github.com/claykabongok/PhotoUploadFirebase/blob/master/readme/uploadinprogress.jpg?raw=true" width=400 alt="Demo screen">
+
 
 
