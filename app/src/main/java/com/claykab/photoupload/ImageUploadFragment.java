@@ -64,9 +64,9 @@ public class ImageUploadFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        View root=binding.getRoot();
-        //return inflater.inflate(R.layout.fragment_image_upload, container, false);
-        return root;
+
+
+        return binding.getRoot();
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -81,56 +81,47 @@ public class ImageUploadFragment extends Fragment {
 
 
         //event to upload an image using progress dialog to display the status
-        binding.buttonBtnUpload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean isDeviceConnected= NetworkState.isDeviceConnected(getContext());
-                if(uriPicture != null && isDeviceConnected){
-                    progressDialog = new ProgressDialog(getContext());
-                    progressDialog.setTitle("Uploading image..");
-                    progressDialog.setMessage("Please wait...");
-                    progressDialog.setCancelable(false);
+        binding.buttonBtnUpload.setOnClickListener(v -> {
+            boolean isDeviceConnected= NetworkState.isDeviceConnected(getContext());
+            if(uriPicture != null && isDeviceConnected){
+                progressDialog = new ProgressDialog(getContext());
+                progressDialog.setTitle("Uploading image..");
+                progressDialog.setMessage("Please wait...");
+                progressDialog.setCancelable(false);
 
-                    progressDialog.setMax(100);
-                    progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                    progressDialog.show();
-                    uploadPicture();
-                }else if(!isDeviceConnected){
-                    //notify the user
-                    try {
+                progressDialog.setMax(100);
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                progressDialog.show();
+                uploadPicture();
+            }else if(!isDeviceConnected){
+                //notify the user
+                try {
 
-                        Snackbar.make(getActivity().findViewById(R.id.nav_host_fragment), "Device offline, please connect to a Wifi or Cellular network.",
-                                Snackbar.LENGTH_LONG)
-                                .show();
-                    }
-                    catch (Exception ex){
-                        //Log.e(TAG,"Error: "+ex.getLocalizedMessage());
-                    }
-
+                    Snackbar.make(getActivity().findViewById(R.id.nav_host_fragment), "Device offline, please connect to a Wifi or Cellular network.",
+                            Snackbar.LENGTH_LONG)
+                            .show();
                 }
-                else if(uriPicture != null){
-                    try {
-                        Snackbar.make(getActivity().findViewById(R.id.nav_host_fragment), "Please select a picture before you upload", Snackbar.LENGTH_LONG)
-                                .setAction("OK", null).show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                catch (Exception ex){
+                    //Log.e(TAG,"Error: "+ex.getLocalizedMessage());
                 }
 
             }
+            else if(uriPicture != null){
+                try {
+                    Snackbar.make(getActivity().findViewById(R.id.nav_host_fragment), "Please select a picture before you upload", Snackbar.LENGTH_LONG)
+                            .setAction("OK", null).show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
         });
 
 
 
 
         //pick an image for upload to firebase
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectPicture();
-
-            }
-        });
+        binding.fab.setOnClickListener(view1 -> selectPicture());
     }
 
     /**
@@ -150,44 +141,36 @@ public class ImageUploadFragment extends Fragment {
         storageReference.child(uriPicture.getLastPathSegment()+"."+ getImageExtension(uriPicture));
 
         mStorageReference.putFile(uriPicture)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // Get a URL to the uploaded content
-                        //Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                        progressDialog.hide();
-                        binding.imageView.setImageURI(null);
-                        try {
-                            Snackbar.make(getActivity().findViewById(R.id.nav_host_fragment), "Image successfully uploaded!", Snackbar.LENGTH_LONG)
-                                    .setAction("OK", null).show();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                .addOnSuccessListener(taskSnapshot -> {
+                    // Get a URL to the uploaded content
+                    //Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                    progressDialog.hide();
+                    binding.imageView.setImageURI(null);
+                    try {
+                        Snackbar.make(getActivity().findViewById(R.id.nav_host_fragment), "Image successfully uploaded!", Snackbar.LENGTH_LONG)
+                                .setAction("OK", null).show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 })
-                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
-                        //display upload status
-                        double uploadProgress=(100.0 * taskSnapshot.getBytesTransferred())/taskSnapshot.getTotalByteCount();
-                        progressDialog.setProgress((int) uploadProgress);
+                .addOnProgressListener(taskSnapshot -> {
+                    //display upload status
+                    double uploadProgress=(100.0 * taskSnapshot.getBytesTransferred())/taskSnapshot.getTotalByteCount();
+                    progressDialog.setProgress((int) uploadProgress);
 
 
 
-                    }
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle unsuccessful uploads
-                        // ...
-                        progressDialog.hide();
-                        try {
-                            Snackbar.make(getActivity().findViewById(R.id.nav_host_fragment), "Error uploading the image!"+exception.getLocalizedMessage(), Snackbar.LENGTH_LONG)
-                                    .setAction("OK", null).show();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+
+                .addOnFailureListener(exception -> {
+                    // Handle unsuccessful uploads
+                    // ...
+                    progressDialog.hide();
+                    try {
+                        Snackbar.make(getActivity().findViewById(R.id.nav_host_fragment), "Error uploading the image!"+exception.getLocalizedMessage(), Snackbar.LENGTH_LONG)
+                                .setAction("OK", null).show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 });
     }

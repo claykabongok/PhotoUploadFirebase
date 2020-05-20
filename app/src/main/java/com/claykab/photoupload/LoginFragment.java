@@ -43,46 +43,38 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding=FragmentLoginBinding.inflate(inflater, container, false);
-        View root=binding.getRoot();
+
         // Inflate the layout for this fragment
         firebaseAuth=FirebaseAuth.getInstance();
 
 
 
-        binding.btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                boolean isDeviceConnected= NetworkState.isDeviceConnected(getContext());
-                if(isDeviceConnected){
-                    fireBaseUserLogin(v);
-                }else {
-                    //notify the user
-                    try {
+        binding.btnLogin.setOnClickListener(v -> {
+            boolean isDeviceConnected= NetworkState.isDeviceConnected(getContext());
+            if(isDeviceConnected){
+                fireBaseUserLogin(v);
+            }else {
+                //notify the user
+                try {
 
-                        Snackbar.make(getActivity().findViewById(R.id.nav_host_fragment), "Device offline, please connect to a Wifi or Cellular network.",
-                                Snackbar.LENGTH_LONG)
-                                .show();
-                    }
-                    catch (Exception ex){
-                        //Log.e(TAG,"Error: "+ex.getLocalizedMessage());
-                    }
-
+                    Snackbar.make(getActivity().findViewById(R.id.nav_host_fragment), "Device offline, please connect to a Wifi or Cellular network.",
+                            Snackbar.LENGTH_LONG)
+                            .show();
+                }
+                catch (Exception ex){
+                    //Log.e(TAG,"Error: "+ex.getLocalizedMessage());
                 }
 
             }
+
         });
 
 
         //sign up link
-        binding.tvSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_signUpFragment);
-            }
-        });
+        binding.tvSignUp.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_signUpFragment));
 
 
-        return root;//inflater.inflate(R.layout.fragment_login, container, false);
+        return  binding.getRoot();
     }
 
     private void fireBaseUserLogin(final View v) {
@@ -99,31 +91,28 @@ public class LoginFragment extends Fragment {
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        firebaseAuth.signInWithEmailAndPassword(username,password).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
-                    progressDialog.hide();
-                    FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
+        firebaseAuth.signInWithEmailAndPassword(username,password).addOnCompleteListener(getActivity(), task -> {
+            if (task.isSuccessful()){
+                progressDialog.hide();
+                FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
 
-                    Toast.makeText(getContext(),"User: "+firebaseUser.getEmail(),Toast.LENGTH_LONG).show();
-                    Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_FirstFragment);
-                }else{
-                    progressDialog.hide();
-                    try {
+                Toast.makeText(getContext(),"User: "+firebaseUser.getEmail(),Toast.LENGTH_LONG).show();
+                Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_FirstFragment);
+            }else{
+                progressDialog.hide();
+                try {
 
-                        Snackbar.make(getActivity().findViewById(R.id.nav_host_fragment), "Login not Successful"+task.getException(),
-                                Snackbar.LENGTH_LONG)
-                                .show();
-                    }
-                    catch (Exception ex){
-                        Log.e(TAG,"Error: "+ex.getLocalizedMessage());
-                    }
-                    //Toast.makeText(getContext(), "Login not Successful"+task.getException(),Toast.LENGTH_LONG).show();
-                    //Log.w(TAG, "createUserWithEmail:failure", task.getException());
-
-
+                    Snackbar.make(getActivity().findViewById(R.id.nav_host_fragment), "Login not Successful"+task.getException(),
+                            Snackbar.LENGTH_LONG)
+                            .show();
                 }
+                catch (Exception ex){
+                    Log.e(TAG,"Error: "+ex.getLocalizedMessage());
+                }
+                //Toast.makeText(getContext(), "Login not Successful"+task.getException(),Toast.LENGTH_LONG).show();
+                //Log.w(TAG, "createUserWithEmail:failure", task.getException());
+
+
             }
         });
     }
